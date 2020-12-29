@@ -12,7 +12,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <!-- Зависимости прописаны здесь таким образом из-за отсутствия нужных библиотек в публичных Maven репозиториях -->
+        <!-- Путь к полноценному (!) Spigot. По каким-то причинам относительно недавно из spigot-repo была удалена версия Spigot, включающая в себя NMS. Поэтому приходится использовать JAR файл. -->
         <dependency.spigot>D:\Server\WhiteList\spigot-1.16.4.jar</dependency.spigot>
+        <!-- PosePlugin. Его, кажется, в публичных репозиториях никогда и не было. Поэтому он здесь. -->
         <dependency.poseplugin>D:\Server\WhiteList\plugins\poseplugin-experimental-2.0.0.1-b2.jar</dependency.poseplugin>
     </properties>
 
