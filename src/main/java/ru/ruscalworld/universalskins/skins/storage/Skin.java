@@ -49,7 +49,7 @@ public class Skin {
         } catch (Exception ignored) { }
     }
 
-    public void setSkin(SkinSystem system, String name) throws Exception {
+    public void setSkin(SkinSystem system, String name) {
         setSkin(system, name, true);
     }
 

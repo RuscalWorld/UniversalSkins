@@ -1,6 +1,5 @@
 package ru.ruscalworld.universalskins.commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,8 +11,6 @@ import ru.ruscalworld.universalskins.skins.storage.Skin;
 import ru.ruscalworld.universalskins.systems.SkinSystem;
 import ru.ruscalworld.universalskins.systems.mojang.MojangSkinSystem;
 import ru.ruscalworld.universalskins.util.ResultHandler;
-
-import java.util.UUID;
 
 public class SkinCommand implements CommandExecutor {
 
