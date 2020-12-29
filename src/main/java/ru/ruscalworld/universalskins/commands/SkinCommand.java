@@ -35,6 +35,7 @@ public class SkinCommand implements CommandExecutor {
                         " §9/skin reset§f - установить скин по умолчанию\n" +
                         " §9/skin update§f - обновить скин\n" +
                         "§8§l     ---------------------     \n" +
+                        " §fИсходный код: §9https://github.com/RuscalWorld/UniversalSkins\n" +
                         " §f© RuscalWorld, 2020\n" +
                         "§8§l=============================");
                 return true;
