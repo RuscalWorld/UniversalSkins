@@ -1,0 +1,11 @@
+skin {
+    set {
+        name brigadier:string single_word {
+            from {
+                system brigadier:string single_word;
+            }
+        }
+    }
+    reset;
+    update;
+}
