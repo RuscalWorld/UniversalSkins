@@ -29,6 +29,9 @@ public class MojangSkinSystem extends SkinSystem {
         this.plugin = plugin;
     }
 
+    // Делаем HTTP запросы вручную: хардкор, только хардкор!
+    // Да, можно было использовать готовые библиотеки для работы с Mojang API, но религия не позволяет
+    // Кроме того, там костыли и их много, не смотрите, это просто говнокод
     @Override
     public void getTextures(String username, ResultHandler<Textures> callback) {
         new BukkitRunnable() {
@@ -65,6 +68,8 @@ public class MojangSkinSystem extends SkinSystem {
         }.runTaskAsynchronously(plugin);
     }
 
+    // То же самое, что и выше, только не получает UUID по никнейму, а сразу получает текстуры по UUID игрока
+    // Ещё немного говнокода, короче
     @Override
     public void getTextures(UUID uuid, ResultHandler<Textures> callback) {
         new BukkitRunnable() {

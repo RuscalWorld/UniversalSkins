@@ -22,7 +22,9 @@ public class SkinCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String alias, String[] args) {
+        // Просто ненужная проверка, ничего необычного
         if (command.getLabel().equals("skin")) {
+            // Если мы ввели просто /skin, то показать информацию о плагине
             if (args.length == 0) {
                 PluginDescriptionFile description = plugin.getDescription();
                 commandSender.sendMessage("§8§l=============================\n" +
@@ -38,11 +40,13 @@ public class SkinCommand implements CommandExecutor {
                 return true;
             }
 
+            // А дальше можно только игрокам, из консоли нельзя
             if (!(commandSender instanceof Player)) return false;
             Player player = (Player) commandSender;
             Skin skin = Skin.get(player.getName(), plugin);
 
             switch (args[0].toLowerCase()) {
+                // Если мы ввели /skin set
                 case "set":
                     String name = null;
                     SkinSystem system = null;
@@ -50,13 +54,16 @@ public class SkinCommand implements CommandExecutor {
                     switch (args.length) {
                         case 1:
                         case 3:
+                            // Неправильное использование: "/skin set *название не указано*", "/skin set <название> from *система скинов не указана*" и т.п.
                             player.sendMessage("§fИспользование: §9/skin set <название> [from <mojang/elyby>]");
                             break;
                         case 2:
+                            // Игрок ввёл просто /skin set <название>, ищем нужный скин у Mojang
                             name = args[1];
                             system = new MojangSkinSystem(plugin);
                             break;
                         case 4:
+                            // Игрок ввёл /skin set <название> from <система>, получаем систему скинов и название скина
                             name = args[1];
                             system = SkinSystem.fromName(args[3], plugin);
 
@@ -70,6 +77,7 @@ public class SkinCommand implements CommandExecutor {
 
                     if (name == null) return false;
 
+                    // Пытаемся поставить скин
                     try {
                         skin.setSkin(system, name);
                     } catch (Exception e) {
@@ -78,6 +86,7 @@ public class SkinCommand implements CommandExecutor {
 
                     break;
                 case "update":
+                    // Просто обновляем скин, если мы ввели /skin update
                     skin.update(new ResultHandler<Boolean>() {
                         @Override
                         public void handle(Boolean result) {
@@ -86,6 +95,7 @@ public class SkinCommand implements CommandExecutor {
                     });
                     break;
                 case "reset":
+                    // Восстанавливаем значения по умолчанию, если мы ввели /skin reset
                     try {
                         if (args.length == 2) skin = Skin.get(args[1], plugin);
                         skin.reset();
@@ -94,6 +104,7 @@ public class SkinCommand implements CommandExecutor {
                     }
                     break;
                 case "reload":
+                    // Перезагружаем конфиг, которого нет
                     if (!player.hasPermission("universalskins.reload")) return true;
                     plugin.reloadConfig();
                     player.sendMessage("Конфигурация перезагружена.");

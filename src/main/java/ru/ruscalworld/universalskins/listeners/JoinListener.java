@@ -15,6 +15,8 @@ public class JoinListener implements Listener {
         this.plugin = plugin;
     }
 
+    // Просто отслеживаем вход игрока на сервер
+    // Когда игрок заходит, подгружаем его настройки и применяем скин
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         try {

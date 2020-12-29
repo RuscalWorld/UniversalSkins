@@ -25,8 +25,12 @@ public class UniversalSkins extends JavaPlugin {
         try {
             PluginCommand skinCommand = Objects.requireNonNull(getCommand("skin"));
             skinCommand.setExecutor(new SkinCommand(this));
+
+            // Подсказки для команды /skin, которые нельзя реализовать с помощью Commodore
             skinCommand.setTabCompleter(new SkinTabCompleter());
 
+            // Подсказки для команды /skin, которые можно реализовать с помощью Commodore
+            // Просто чтобы было красиво
             if (CommodoreProvider.isSupported()) {
                 Commodore commodore = CommodoreProvider.getCommodore(this);
                 InputStream commandFile = getResource("skin.commodore");
@@ -36,6 +40,7 @@ public class UniversalSkins extends JavaPlugin {
                 }
             }
 
+            // Инициализируем класс, отвечающий за управление файлами
             fileManager = new FileManager(this).init();
 
             PluginManager pluginManager = Bukkit.getPluginManager();

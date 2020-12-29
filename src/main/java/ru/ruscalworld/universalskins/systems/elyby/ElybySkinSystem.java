@@ -26,6 +26,8 @@ public class ElybySkinSystem extends SkinSystem {
         this.plugin = plugin;
     }
 
+    // Просто получаем текстуры по никнейму
+    // Говнокод, прямо как и в случае с Mojang API
     @Override
     public void getTextures(String username, ResultHandler<Textures> callback) {
         new BukkitRunnable() {
@@ -55,6 +57,8 @@ public class ElybySkinSystem extends SkinSystem {
         }.runTaskAsynchronously(plugin);
     }
 
+    // В отличие от Mojang API, ely.by не умеет возвращать текстуры по UUID
+    // Так что, шлём куда подальше того, кому вдруг пригодится такая возможность
     @Override
     public void getTextures(UUID uuid, ResultHandler<Textures> callback) {
         throw new UnsupportedOperationException("Ely.by doesn't allow to get skins by UUID");

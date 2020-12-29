@@ -9,6 +9,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Подсказки для команды /skin
+ */
 public class SkinTabCompleter implements TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
@@ -18,12 +21,15 @@ public class SkinTabCompleter implements TabCompleter {
 
         switch (last) {
             case "set":
+                // Возвращаем null, если игрок пишет название скина, чтобы ему просто вывело список игроков онлайн
                 return null;
             case "from":
+                // Возвращаем возможные названия систем скинов, если предыдущее слово - from
                 suggestions.add("elyby");
                 suggestions.add("mojang");
                 return suggestions;
             default:
+                // Возвращаем пустой список, чтобы Commodore спокойно выполнял свою работу
                 return new ArrayList<>();
         }
     }

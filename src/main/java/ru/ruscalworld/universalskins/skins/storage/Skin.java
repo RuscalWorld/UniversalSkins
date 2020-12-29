@@ -13,6 +13,9 @@ import ru.ruscalworld.universalskins.util.ResultHandler;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
+/**
+ * Класс, описывающий скин в "хранилище"
+ */
 public class Skin {
     private final UniversalSkins plugin;
     private final String player;
@@ -26,6 +29,12 @@ public class Skin {
         this.name = name;
     }
 
+    /**
+     * Получает сохранённую информацию о скине игрока
+     * @param player Никнейм игрока
+     * @param plugin Экземпляр главного класса
+     * @return Информация о скине
+     */
     public static Skin get(String player, UniversalSkins plugin) {
         FileManager fileManager = plugin.getFileManager();
         YamlConfiguration data = fileManager.getData();
@@ -43,6 +52,10 @@ public class Skin {
         reset(true);
     }
 
+    /**
+     * Устанавливает значения по умолчанию в настройках скина игрока
+     * @param update Обновлять ли скин после изменения настроек?
+     */
     public void reset(boolean update) {
         try {
             setSkin(new MojangSkinSystem(plugin), player, update);
@@ -53,6 +66,12 @@ public class Skin {
         setSkin(system, name, true);
     }
 
+    /**
+     * Изменяет настройки скина игрока и обновляет скин при необходимости
+     * @param system Система скинов
+     * @param name Название нового скина
+     * @param update Обновлять ли скин после изменения настроек?
+     */
     public void setSkin(SkinSystem system, String name, boolean update) {
         this.name = name;
         this.system = system;
@@ -75,6 +94,10 @@ public class Skin {
         update(null);
     }
 
+    /**
+     * Обновляет скин игрока, загружая текстуры из системы скинов и применяя их игроку
+     * @param callback Куда вернуть результат
+     */
     public void update(@Nullable ResultHandler<Boolean> callback) {
         Player player = Bukkit.getPlayer(this.player);
         if (player == null) return;

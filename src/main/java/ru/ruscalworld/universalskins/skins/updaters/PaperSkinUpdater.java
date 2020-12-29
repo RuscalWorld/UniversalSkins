@@ -13,6 +13,10 @@ import ru.ruscalworld.universalskins.UniversalSkins;
 
 import java.util.Collections;
 
+/**
+ * Алгоритм обновления скина для Paper
+ * Других нет просто потому что не надо
+ */
 public class PaperSkinUpdater extends SkinUpdater {
 
     private final UniversalSkins plugin;
@@ -22,6 +26,18 @@ public class PaperSkinUpdater extends SkinUpdater {
         this.plugin = plugin;
     }
 
+    /**
+     * Алгоритм, взятый в своё время из одного open source проекта.
+     * Принцип работы основан на том, что при респавне клиент применяет игроку новые текстуры.
+     * Основная проблема заключается в том, что зареспавнить живого игрока с помощью Spigot API нельзя,
+     * поэтому для выполнения задачи вручную отправляются пакеты, заставляющие клиент думать, что игрок респавнится.
+     *
+     * Является головной болью, поскольку постоянно ломает обратную совместимость из-за использования методов NMS.
+     * Более того, используются методы, которые почему-то нередко изменяются разработчиками, а из этого следует,
+     * что почти для каждой новой версии необходимо писать новый апдейтер.
+     *
+     * @param player Игрок, которого необходимо "зареспавнить"
+     */
     @Override
     public void updateSkin(Player player) {
         CraftPlayer cp = (CraftPlayer) player;
@@ -54,11 +70,18 @@ public class PaperSkinUpdater extends SkinUpdater {
 
         PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(ep.getId(), watcher, false);
 
+        // Опять есть необходимость делать всё в основном потоке, когда работаем мы в каком-то другом
         new BukkitRunnable() {
             @Override
             public void run() {
+                // Костыли от меня
+                // Высаживаем игрока из транспорта
                 if (player.getVehicle() != null) player.getVehicle().eject();
 
+                // Используем PosePlugin API, чтобы остановить все анимации игрока.
+                // А если этого не сделать, то ничем хорошим это не кончится, просто поверьте на слово.
+                // Спасибо тем, кто в своё время сообщил об уязвимостях, вызванных "конфликтом" UniversalSKins и PosePlugin.
+                // Да, костыль. Зато работает.
                 try {
                     PosePluginAPI api = PosePluginAPI.getAPI();
                     P3Map playerMap = api.getPlayerMap();
@@ -66,6 +89,7 @@ public class PaperSkinUpdater extends SkinUpdater {
                     ppPlayer.changePose(PoseBuilder.builder(EnumPose.STANDING).build(player));
                 } catch (Exception ignored) { }
 
+                // Отправляем все описанные выше пакеты
                 ep.playerConnection.sendPacket(removeInfo);
                 ep.playerConnection.sendPacket(addInfo);
                 ep.playerConnection.sendPacket(metadata);
